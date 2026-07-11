@@ -767,8 +767,9 @@ Assets de audio/imagen: verificar licencias individuales antes de uso comercial.
 
 ---
 
-## 👨‍💻 Autor
+## 👨‍💻 Autores
 
 **Mario Manuel Antizana Ponce de Leon**  
+**Nicolás Huarcaya Chipana** 
 GitHub: [@MarioAntizana1](https://github.com/MarioAntizana1)  
 Repositorio: [proyecto-naves-godot](https://github.com/MarioAntizana1/proyecto-naves-godot)
