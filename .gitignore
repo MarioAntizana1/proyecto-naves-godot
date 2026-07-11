@@ -1,3 +1,6 @@
+# Godot - Import cache
+.import/
+
 # Godot - Mono / C#
 .mono/
 mono_crash*
@@ -10,6 +13,17 @@ export_presets.cfg
 
 # Large audio files (convert to .ogg for Godot)
 *.wav
+
+# LaTeX build artifacts
+informe/*.aux
+informe/*.log
+informe/*.out
+informe/*.toc
+informe/*.lof
+informe/*.lot
+informe/*.pdf
+informe/*.zip
+informe.zip
 
 # IDE
 .idea/

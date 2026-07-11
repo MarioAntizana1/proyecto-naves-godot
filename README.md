@@ -35,6 +35,22 @@ Un juego de naves estilo *space shooter* desarrollado en **Godot 3.x** (GDScript
 
 ---
 
+## 📸 Galería
+
+<p align="center">
+  <img src="screenshots/Movimiento-jugador.png" width="30%" alt="Movimiento del jugador">
+  <img src="screenshots/sistema-de-enemigos.png" width="30%" alt="Enemigos y meteoritos">
+  <img src="screenshots/sistema-de-disparos.png" width="30%" alt="Sistema de disparo">
+</p>
+
+<p align="center">
+  <img src="screenshots/sistema-de-vidas.png" width="30%" alt="HUD y vidas">
+  <img src="screenshots/nivel-superado.png" width="30%" alt="Nivel superado">
+  <img src="screenshots/game-over.png" width="30%" alt="Game Over">
+</p>
+
+---
+
 ## 🏗 Arquitectura del Proyecto
 
 ### Patrón de Diseño
@@ -233,6 +249,9 @@ var is_dashing = false
 - Gamepad: **RB (5)** / **Trigger derecho (>0.5)** (`controller_shoot`)
 
 ### 5. Niveles / Dificultad Progresiva
+
+<p align="center"><img src="screenshots/implementacion-de-niveles.png" width="70%" alt="Implementación de niveles"></p>
+
 **En `Stage.gd`**:
 ```gdscript
 func check_level():
@@ -251,6 +270,9 @@ func apply_level():
 - Al destruir **50 enemigos** → Victoria → `DefenseCompleted.tscn`
 
 ### 6. Puntuación
+
+<p align="center"><img src="screenshots/sistema-de-puntaje.png" width="50%" alt="Sistema de puntuación"></p>
+
 | Objetivo | Puntos |
 |----------|--------|
 | Enemigo (EnemyBlue/Red) | 100 |
@@ -566,6 +588,8 @@ func game_over():
 **Botones GameOver**:
 - `_on_Salir_menu_pressed()` / `_on_Salir_pressed()` / `_on_SALIR_pressed()` → Menú principal
 - `_on_continuar_pressed()` → `get_tree().reload_current_scene()` (reintentar)
+
+<p align="center"><img src="screenshots/game-over.png" width="50%" alt="Pantalla Game Over"></p>
 
 ---
 
