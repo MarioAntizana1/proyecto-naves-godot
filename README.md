@@ -23,7 +23,7 @@ Un juego de naves estilo *space shooter* desarrollado en **Godot 3.x** (GDScript
 
 **Defensa Cóndor** es un *vertical shooter* donde el jugador controla una nave (el Cóndor) que debe defender el espacio de oleadas de enemigos y meteoritos. El juego presenta:
 
-- **3 Etapas/Leveles** con dificultad creciente
+- **3 Niveles/Etapas** con dificultad creciente
 - **Sistema de Escudo** regenerable (mecánica principal de supervivencia)
 - **Dash/Desplazamiento rápido** para esquivar
 - **2 Tipos de Enemigos** con IA distinta (ondulante y directo)
@@ -40,21 +40,20 @@ Un juego de naves estilo *space shooter* desarrollado en **Godot 3.x** (GDScript
 ### Patrón de Diseño
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        MAIN MENU                               │
-│  (Control.tscn) ──► Stage.tscn ──► Stage2.tscn ──► Stage3.tscn │
-│       │                │              │              │          │
-│       ▼                ▼              ▼              ▼          │
-│  Options.tscn    Game Loop      Game Loop      Game Loop        │
-│       │                │              │              │          │
-│       └────────────────┴──────────────┴──────────────┘          │
-│                            │                                     │
-│                            ▼                                     │
-│                 ┌─────────────────────┐                         │
-│                 │  DefenseCompleted   │                         │
-│                 │     (Victoria)      │                         │
-│                 └─────────────────────┘                         │
-└─────────────────────────────────────────────────────────────┘
+  main/Control.tscn (Menú Principal)
+    ├── "Jugar"   →  stage/Stage.tscn  (Nivel 1)
+    ├── "Niveles" → main/options.tscn (selección manual de nivel)
+    └── "Salir"   →  exit
+
+  Stage.tscn ──[50 enemigos]──→ DefenseCompleted.tscn
+                                    └── Siguiente → Stage2.tscn
+  Stage2.tscn ──[50 enemigos]──→ DefenseCompleted.tscn
+                                    └── Siguiente → Stage3.tscn
+  Stage3.tscn ──[50 enemigos]──→ DefenseCompleted.tscn
+                                    └── Salir → Menú
+
+  Cualquier Stage → GameOver → "INTENTAR DENUEVO" (recarga escena)
+                              → "MENU" (vuelve a menú principal)
 ```
 
 ### Herencia de Scripts (Enemigos)
@@ -92,11 +91,11 @@ spaceshooter/
 │   └── options.gd             # Volver al menú
 │
 ├── stage/                     # Escenas de juego (3 niveles)
-│   ├── Stage.tscn             # Nivel 1 (base)
-│   ├── Stage2.tscn            # Nivel 2 (solo EnemyBlue, música distinta)
-│   ├── Stage3.tscn            # Nivel 3 (ambos enemigos, música distinta)
+│   ├── Stage.tscn             # Nivel 1 (sin meteoritos, solo EnemyBlue)
+│   ├── Stage2.tscn            # Nivel 2 (+ meteoritos, solo EnemyBlue, música distinta)
+│   ├── Stage3.tscn            # Nivel 3 (+ meteoritos, ambos enemigos, música distinta)
 │   ├── Stage.gd               # Lógica principal: Score, Niveles, HUD, Game Over
-│   └── MeteorSpawner.gd       # Spawner infinito de meteoritos
+│   └── MeteorSpawner.gd       # Spawner infinito de meteoritos (usado en Nv 2 y 3)
 │
 ├── completed/                 # Pantalla de victoria
 │   ├── DefenseCompleted.tscn
@@ -145,8 +144,9 @@ spaceshooter/
 ## 🎬 Escenas Principales
 
 ### 1. Menú Principal (`main/Control.tscn`)
-- **Botones**: Play → `Stage.tscn`, Options → `options.tscn`, Quit → `get_tree().quit()`
-- Fondo animado + música de menú
+- **Botones**: "Jugar" → `Stage.tscn`, "Niveles" → `options.tscn`, "Salir" → `quit()`
+- Fondo con imagen estática (`machupicchugreen.jpg`) + sprites decorativos de cóndores
+- Música de menú: `life_goes_on.wav` (autoplay)
 
 ### 2. Nivel 1 (`stage/Stage.tscn`)
 **Nodos principales:**
@@ -155,8 +155,7 @@ Stage (Node + Stage.gd)
 ├── Stars (Stars.tscn)          # Fondo estrellado
 ├── Player (Player.tscn)        # Nave jugador
 ├── PlayerPosition (Position2D) # Spawn inicial
-├── SpawnerEnemy (SpawnerEnemy.tscn) # Spawner enemigos
-├── MeteorSpawner (Node + script)    # Spawner meteoritos
+├── SpawnerEnemy (SpawnerEnemy.tscn) # Spawner enemigos (solo EnemyBlue)
 └── CanvasLayer (HUD)
     ├── life1-4 (Sprite)        # Iconos de vida
     ├── ScoreIcon + ScoreLabel  # Puntuación (4 dígitos)
@@ -175,11 +174,15 @@ Stage (Node + Stage.gd)
 ```
 
 ### 3. Nivel 2 (`stage/Stage2.tscn`)
-- **Diferencias**: `spawn_red = false` (solo EnemyBlue), música `Ananau.wav`
+- Añade `MeteorSpawner` (meteoritos cada 1s)
+- `spawn_red = false` (solo EnemyBlue, igual que Nivel 1)
+- Música `Ananau.wav`, pitch 1.75x
 - Texto "Nivel 2" en HUD
 
 ### 4. Nivel 3 (`stage/Stage3.tscn`)
-- **Diferencias**: Ambos spawners activos, música `music_3_triciclo.wav`
+- También tiene `MeteorSpawner`
+- **Ambos tipos de enemigo activos** (EnemyBlue + EnemyRed)
+- Música `music_3_triciclo.wav`, pitch 1.25x
 - Texto "Nivel 3" en HUD
 
 ### 5. Victoria (`completed/DefenseCompleted.tscn`)
@@ -191,7 +194,7 @@ Stage (Node + Stage.gd)
 ## ⚙️ Sistemas y Mecánicas
 
 ### 1. Sistema de Escudo (Core Mechanic)
-**Ubicación**: `Player.gd` líneas 21-33, 219-232
+**Ubicación**: `Player.gd` líneas 21-33, 91-111, 219-232
 
 ```gdscript
 var max_shield = 100.0
@@ -203,10 +206,10 @@ var shield_recharge_progress = 0.0
 
 **Lógica**:
 - Escudo **siempre lleno al inicio** (100)
-- Al recibir daño **con escudo lleno**: se rompe instantáneamente (`shield = 0`), inicia recarga de 10s
-- Durante recarga: `shield = max_shield * (progress / 10s)` — **protección parcial**
-- Al completar: `shield = 100`, sonido de recarga, `shield_recharging = false`
-- **Visual**: `ShieldBar` (Sprite con 5 hframes) muestra 5 estados
+- Al recibir daño **con escudo al 100% y sin recargar**: se rompe instantáneamente (`shield = 0`), inicia recarga de 10s → **NO pierde vida**
+- Durante la recarga el jugador **NO tiene protección** — cualquier golpe resta una vida
+- Tras 10s: `shield = 100`, sonido de recarga, `shield_recharging = false` (vuelve a proteger)
+- **Visual**: `ShieldBar` (Sprite con 5 hframes) muestra el progreso de recarga visualmente
 
 ### 2. Sistema de Vidas
 - **4 vidas** iniciales (iconos `life1`–`life4` en HUD)
@@ -221,7 +224,7 @@ var is_dashing = false
 ```
 - Teclado: **Shift Izquierdo** (`dash`)
 - Gamepad: **LB (4)** o **A (0)** (`controller_dash`)
-- Durante dash: nave se tiñe cyan (`Color(0.5, 0.8, 1)`), ignora colisiones implícitamente
+- Durante dash: velocidad 900 px/s y nave se tiñe cyan (`Color(0.5, 0.8, 1)`)
 
 ### 4. Disparo
 - **Doble cañón**: instancia 2 balas (`LeftCannon`, `RightCannon`)
@@ -244,7 +247,7 @@ func apply_level():
         2: SpawnTimer.wait_time = 1.2
         3: SpawnTimer.wait_time = 0.6
 ```
-- Cada nivel **reduce intervalo de spawn** exponencialmente
+- Cada nivel **reduce el intervalo de spawn** progresivamente
 - Al destruir **50 enemigos** → Victoria → `DefenseCompleted.tscn`
 
 ### 6. Puntuación
@@ -259,7 +262,7 @@ func apply_level():
 | Disparar | Espacio | RB (5) / Trigger derecho | `shoot` / `controller_shoot` |
 | Dash | Shift Izq | LB (4) / A (0) | `dash` / `controller_dash` |
 | Pausa | Escape | Start (11) | `pause` / `controller_pause` |
-| Movimiento | WASD / Flechas | Stick Izquierdo | `ui_up/down/left/right` |
+| Movimiento | Flechas direccionales | Stick derecho (ejes 2,3) | `ui_up/down/left/right` |
 
 **Configuración automática en `_ready()`** (`Player.gd:54-75`):
 ```gdscript
@@ -328,6 +331,7 @@ var dash_timer = 0.0
 | `_update_shield_recharge(delta)` | Recarga progresiva del escudo |
 | `_update_shield_bar()` | Actualiza frame del sprite ShieldBar (5 frames) |
 | `_play_damage_anim()` / `_update_damage_anim(delta)` | Animación sprite sheet daño |
+| `_on_ShootTimer_timeout()` | Resetea `can_shoot = true` (cooldown de disparo) |
 
 ---
 
@@ -616,8 +620,8 @@ func choice_list(list):
 ---
 
 ### `Explosion.gd` — Efecto Explosión
-- Animación mediante `AnimatedSprite` o sprite sheet en `sprites/explosiones/`
-- 4 partes (part_1 a part_4) × frames
+- Sprite con `region_rect` animado manualmente (20 frames de 128×128)
+- Sprite sheet en `sprites/explosiones/part_1` a `part_4` (48 frames totales, 12 c/u)
 
 ---
 
@@ -655,26 +659,15 @@ environment/default_clear_color=Color(0.3, 0.3, 0.3, 1)
 
 ---
 
-## 🎮 Controles
-
-| Acción | Teclado | Gamepad (Xbox) |
-|--------|---------|----------------|
-| **Mover** | ← → ↑ ↓ / WASD | **Stick Izquierdo** |
-| **Disparar** | **Espacio** | **RB (5)** / **Trigger Derecho** |
-| **Dash** | **Shift Izq** | **LB (4)** / **A (0)** |
-| **Pausa** | **Escape** | **Start (11)** |
-
----
-
 ## 🎵 Audio y Assets
 
 ### Música por Escena
 | Escena | Archivo | Volumen | Pitch |
 |--------|---------|---------|-------|
-| Stage 1 | `Equinox.wav` / `life_goes_on.wav` | -4 dB | 1.75x |
-| Stage 2 | `Ananau.wav` | -4 dB | 1.75x |
-| Stage 3 | `music_3_triciclo.wav` | +2 dB | 1.25x |
-| Menú | (definido en Control.tscn) | | |
+| Stage 1 | `flute_battle.wav` | -4 dB | 1.0 |
+| Stage 2 | `Ananau.wav` | -4 dB | 1.75 |
+| Stage 3 | `music_3_triciclo.wav` | +2 dB | 1.25 |
+| Menú | `life_goes_on.wav` | (por defecto) | 1.0 |
 
 ### SFX Principales
 | Sonido | Uso |
@@ -732,11 +725,14 @@ environment/default_clear_color=Color(0.3, 0.3, 0.3, 1)
 1. **Archivos .wav grandes** (80MB+) en Music/ — convertir a .ogg para distribución
 2. `MeteorSpawner.gd` usa `while true` con `yield` — considerar `Timer` para mejor control
 3. `randomize()` llamado múltiples veces en `_ready()` de varios scripts — una vez al inicio basta
-4. `Enemy.gd` línea 56: `area.queue_free()` pero `area` es la bala — correcto, pero variable confusa
+4. `Enemy.gd` variable `area` en `_on_Enemy_area_entered` representa la bala, pero el nombre es genérico
 5. Falta pantalla de "Pausa" dedicada (solo `get_tree().paused = true`)
 6. `EnemyBlue` rotación visual no afecta hitbox (CollisionShape2D no rota con sprite)
 7. `SpawnerEnemy` `max_enemies = 50` hardcoded — podría ser por nivel
-8. No hay guardado de high-score / progreso entre sesiones
+8. `EnemyCounter` label muestra "0/10" por defecto pero `enemies_total = 50` en Stage.gd — el label se actualiza correctamente al destruir enemigos, pero el texto default no coincide
+9. `Bullet.gd` usa `_process()` mientras que otros scripts usan `_physics_process()` — inconsistencia en el loop
+10. No hay guardado de high-score / progreso entre sesiones
+11. Stage 1 no tiene `MeteorSpawner` a diferencia de Stage 2 y 3 — intencional, pero no documentado en juego
 
 ---
 

@@ -59,7 +59,7 @@ else:
 
 ### Gamepad Support
 - Auto-registra actions en `_ready()`: `controller_shoot` (RB), `controller_dash` (LB/A), `controller_pause` (Start)
-- Eje derecho (stick) para movimiento, trigger derecho (eje 7) para disparo continuo
+- **Stick derecho** (ejes 2,3) para movimiento (el izquierdo no se usa), trigger derecho (eje 7) para disparo continuo
 
 ## 📝 Convenciones de Código
 
