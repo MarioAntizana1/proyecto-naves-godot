@@ -767,8 +767,32 @@ Assets de audio/imagen: verificar licencias individuales antes de uso comercial.
 
 ---
 
-## 👨‍💻 Autor
+## 🎨 Créditos de Assets
 
+### Sprites y Gráficos
+
+| Asset | Autor | Fuente |
+|-------|-------|--------|
+| Efectos de humo (Smoke FX) | **bdragon1727** | [Free Smoke FX Pixel 2](https://bdragon1727.itch.io/free-smoke-fx-pixel-2) |
+| Efectos de explosión y poder | **bdragon1727** | [200 Pixel Shader Explos and Power](https://bdragon1727.itch.io/200-pixel-shader-explos-and-power) |
+| Balas 24×24 (Parte 1) | **bdragon1727** | [500 Pixel Bullet 24x24](https://bdragon1727.itch.io/500-pixel-bullet-24x24) |
+| Balas 24×24 (Parte 3) | **bdragon1727** | [Pixel Bullet 24x24 Part 3](https://bdragon1727.itch.io/pixel-bullet-24x24-part-3) |
+| Barras de vida y scroll | **bdragon1727** | [Basic Pixel Health Bar and Scroll Bar](https://bdragon1727.itch.io/basic-pixel-health-bar-and-scroll-bar) |
+| Íconos de items | **Glionox** | [Items 16](https://glionox.itch.io/items16) |
+| Sprite sheet de armas | **DanteWreckmen-999** | [Halo Series Master Weapons Pack](https://www.deviantart.com/dantewreckmen-999/art/Halo-Series-Master-Weapons-Pack-Sprite-Sheet-553343608) |
+
+### Motor y Herramientas
+
+| Herramienta | Descripción |
+|-------------|-------------|
+| [Godot Engine 3.x](https://godotengine.org/) | Motor de videojuegos de código abierto (MIT License) |
+| [GDScript](https://docs.godotengine.org/) | Lenguaje de programación integrado en Godot |
+
+---
+
+## 👨‍💻 Autores
+
+**Nicolás Huarcaya Chipana**  
 **Mario Manuel Antizana Ponce de Leon**  
 GitHub: [@MarioAntizana1](https://github.com/MarioAntizana1)  
 Repositorio: [proyecto-naves-godot](https://github.com/MarioAntizana1/proyecto-naves-godot)
