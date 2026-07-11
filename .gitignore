@@ -1,0 +1,24 @@
+# Godot - Mono / C#
+.mono/
+mono_crash*
+
+# Godot - Export presets (personal paths)
+export_presets.cfg
+
+# Translations
+*.translation
+
+# Large audio files (convert to .ogg for Godot)
+*.wav
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/star_so_far.png" type="Texture" id=1]
+[ext_resource path="res://Enemy/effects/SpriteFall.gd" type="Script" id=2]
+[ext_resource path="res://nebulosa.png" type="Texture" id=3]
+[ext_resource path="res://Enemy/effects/fondo_espacio.png" type="Texture" id=4]
+
+[node name="Stars" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 448.059, 294.351 )
+scale = Vector2( 0.698422, 0.641764 )
+texture = ExtResource( 4 )
+
+[node name="StarFall" type="Node2D" parent="."]
+
+[node name="SpriteFall0" type="Sprite" parent="StarFall"]
+position = Vector2( 0, -1024 )
+scale = Vector2( 0.998437, 1 )
+texture = ExtResource( 1 )
+centered = false
+script = ExtResource( 2 )
+velocity = Vector2( 0, 50 )
+
+[node name="SpriteFall1" type="Sprite" parent="StarFall"]
+scale = Vector2( 0.999969, 1 )
+texture = ExtResource( 1 )
+centered = false
+script = ExtResource( 2 )
+velocity = Vector2( 0, 50 )
+
+[node name="SpriteFall2" type="Sprite" parent="StarFall"]
+position = Vector2( -100, 996 )
+scale = Vector2( 0.751935, 0.777344 )
+texture = ExtResource( 3 )
+centered = false
+script = ExtResource( 2 )
+velocity = Vector2( 0, 50 )
+
+[node name="StarFall2" type="Node2D" parent="."]

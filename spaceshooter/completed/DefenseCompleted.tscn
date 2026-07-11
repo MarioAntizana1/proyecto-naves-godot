@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://completed/fondo.png" type="Texture" id=1]
+[ext_resource path="res://completed/DefenseCompleted.gd" type="Script" id=2]
+[ext_resource path="res://completed/level_complete.wav" type="AudioStream" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Button
+
+#==================================
+# NIVEL ACTUAL
+#==================================
+var current_stage = 1
+
+#==================================
+# PUNTAJE GLOBAL (opcional)
+#==================================
+var score = 0
+
+#==================================
+# REINICIAR DATOS
+#==================================
+func reset_game():
+	current_stage = 1
+	score = 0
+"
+
+[node name="Control" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -19.0
+margin_top = -18.0
+margin_right = 1003.0
+margin_bottom = 585.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pngwingcom (3)" type="Sprite" parent="Panel"]
+position = Vector2( 511.751, 297.78 )
+scale = Vector2( 0.611835, 0.638927 )
+texture = ExtResource( 1 )
+
+[node name="Siguiente" type="Button" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.965
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 71.0762
+margin_top = -143.54
+margin_right = 218.076
+margin_bottom = -121.855
+text = "SIGUIENTE NIVEL"
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Salir" type="Button" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.965
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -195.333
+margin_top = -140.252
+margin_right = -48.3328
+margin_bottom = -118.567
+text = "SALIR"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+autoplay = true
+[connection signal="pressed" from="Panel/Siguiente" to="." method="_on_Siguiente_pressed"]
+[connection signal="pressed" from="Panel/Salir" to="." method="_on_Salir_pressed"]

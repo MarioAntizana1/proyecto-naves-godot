@@ -1,0 +1,135 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://img/machupicchugreen.jpg" type="Texture" id=1]
+[ext_resource path="res://img/condor_1.png" type="Texture" id=2]
+[ext_resource path="res://img/condor_2.png" type="Texture" id=3]
+[ext_resource path="res://img/condor.png" type="Texture" id=4]
+[ext_resource path="res://fonts/m5x7.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://main/Control.gd" type="Script" id=6]
+[ext_resource path="res://main/titulocondor.png" type="Texture" id=7]
+[ext_resource path="res://Music/life_goes_on.wav" type="AudioStream" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 50
+font_data = ExtResource( 5 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.49835
+margin_right = 1228.0
+margin_bottom = -1.50165
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_right = -1226.0
+color = Color( 0.435294, 0.435294, 0.435294, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.118897
+margin_right = 0.118896
+rect_rotation = -0.185276
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -1073.5
+margin_top = -6.5
+margin_right = -749.5
+margin_bottom = 212.5
+rect_rotation = -0.00623857
+custom_constants/separation = 38
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Jugar" type="Button" parent="VBoxContainer"]
+margin_right = 324.0
+margin_bottom = 47.0
+custom_fonts/font = SubResource( 1 )
+text = "Jugar"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Niveles" type="Button" parent="VBoxContainer"]
+margin_top = 85.0
+margin_right = 324.0
+margin_bottom = 132.0
+custom_fonts/font = SubResource( 1 )
+text = "Niveles"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+margin_top = 170.0
+margin_right = 324.0
+margin_bottom = 217.0
+custom_fonts/font = SubResource( 1 )
+text = "Salir"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="titulocondor" type="Sprite" parent="VBoxContainer"]
+position = Vector2( 166.727, -152.674 )
+rotation = 0.000108884
+scale = Vector2( 0.286687, 0.334912 )
+texture = ExtResource( 7 )
+
+[node name="pngwingcom (1)" type="Sprite" parent="VBoxContainer"]
+position = Vector2( 462.815, -116.222 )
+rotation = 0.000108884
+scale = Vector2( 0.0651565, 0.0754249 )
+texture = ExtResource( 2 )
+
+[node name="pngwingcom (2)" type="Sprite" parent="."]
+position = Vector2( 577.572, 250.561 )
+rotation = -0.0973206
+scale = Vector2( 0.264037, 0.190731 )
+texture = ExtResource( 3 )
+
+[node name="pngwingcom (2)2" type="Sprite" parent="."]
+position = Vector2( 826.885, 123.743 )
+rotation = 1.97321
+scale = Vector2( 0.149668, 0.150421 )
+texture = ExtResource( 3 )
+
+[node name="pngwingcom (1)2" type="Sprite" parent="."]
+position = Vector2( 903.915, 107.459 )
+scale = Vector2( 0.0304996, 0.040722 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="pngwingcom" type="Sprite" parent="."]
+position = Vector2( 715.253, 359.338 )
+scale = Vector2( 0.677953, 0.806584 )
+texture = ExtResource( 4 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+autoplay = true
+
+[connection signal="pressed" from="VBoxContainer/Jugar" to="." method="_on_Play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Niveles" to="." method="_on_Option_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
