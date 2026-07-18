@@ -14,8 +14,6 @@ var enemies = []
 
 func _ready():
 
-	randomize()
-
 	if spawn_blue:
 		enemies.append(BLUE)
 

@@ -179,9 +179,9 @@ margin_top = -8.74643
 margin_right = -20.9226
 margin_bottom = 32.2536
 custom_fonts/font = SubResource( 4 )
-text = "0/10"
+text = "0/50"
 __meta__ = {
-"_edit_use_anchors_": false
+	"_edit_use_anchors_": false
 }
 
 [node name="NumeroNivelLabel" type="Label" parent="CanvasLayer"]

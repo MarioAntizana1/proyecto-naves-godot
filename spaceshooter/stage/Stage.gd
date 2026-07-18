@@ -106,6 +106,53 @@ func game_over():
 	$SoungGameOver.play()
 
 	get_tree().paused = true
+
+
+func toggle_pause():
+	get_tree().paused = not get_tree().paused
+	var overlay = $CanvasLayer.get_node_or_null("PauseOverlay")
+	if get_tree().paused:
+		if not overlay:
+			_create_pause_overlay()
+	else:
+		if overlay:
+			overlay.queue_free()
+
+
+func _create_pause_overlay():
+	var overlay = ColorRect.new()
+	overlay.name = "PauseOverlay"
+	overlay.color = Color(0, 0, 0, 0.7)
+	overlay.pause_mode = Node.PAUSE_MODE_PROCESS
+	overlay.anchor_left = 0
+	overlay.anchor_right = 1
+	overlay.anchor_top = 0
+	overlay.anchor_bottom = 1
+	$CanvasLayer.add_child(overlay)
+
+	var vbox = VBoxContainer.new()
+	vbox.pause_mode = Node.PAUSE_MODE_PROCESS
+	vbox.anchor_left = 0.5
+	vbox.anchor_top = 0.5
+	overlay.add_child(vbox)
+
+	var label = Label.new()
+	label.text = "- PAUSA -"
+	label.align = Label.ALIGN_CENTER
+	label.pause_mode = Node.PAUSE_MODE_PROCESS
+	vbox.add_child(label)
+
+	var btn_continue = Button.new()
+	btn_continue.text = "CONTINUAR"
+	btn_continue.pause_mode = Node.PAUSE_MODE_PROCESS
+	vbox.add_child(btn_continue)
+	btn_continue.connect("pressed", self, "toggle_pause")
+
+	var btn_quit = Button.new()
+	btn_quit.text = "SALIR AL MENU"
+	btn_quit.pause_mode = Node.PAUSE_MODE_PROCESS
+	vbox.add_child(btn_quit)
+	btn_quit.connect("pressed", self, "_on_Salir_menu_pressed")
 		
 
 func _on_Salir_pressed():

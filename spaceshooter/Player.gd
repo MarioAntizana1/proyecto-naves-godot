@@ -43,12 +43,18 @@ var dash_time = 0.15
 var is_dashing = false
 var dash_timer = 0.0
 
+var margin_x = 0.0
+var margin_y = 0.0
+
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	update_lives()
 	_update_shield_bar()
 	_setup_controller_inputs()
+	var col_shape = $CollisionShape2D.shape
+	margin_x = col_shape.radius * $CollisionShape2D.scale.x * scale.x
+	margin_y = col_shape.radius * $CollisionShape2D.scale.y * scale.y
 
 
 func _setup_controller_inputs():
@@ -189,8 +195,8 @@ func _physics_process(delta):
 	else:
 		position += velocity * speed * delta
 
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
+	position.x = clamp(position.x, margin_x, screen_size.x - margin_x)
+	position.y = clamp(position.y, margin_y, screen_size.y - margin_y)
 
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		shoot()
@@ -210,10 +216,10 @@ func _physics_process(delta):
 			$ShootTimer.start()
 
 	if Input.is_action_just_pressed("pause"):
-		get_tree().paused = !get_tree().paused
+		get_parent().toggle_pause()
 
 	if device >= 0 and Input.is_action_just_pressed("controller_pause"):
-		get_tree().paused = !get_tree().paused
+		get_parent().toggle_pause()
 
 
 func _update_shield_recharge(delta):

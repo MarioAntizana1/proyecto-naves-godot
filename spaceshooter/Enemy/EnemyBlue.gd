@@ -8,8 +8,6 @@ export var wave_speed = 2
 export var horizontal_speed = 120
 
 func _ready():
-	randomize()
-
 	offset = rand_range(0,10)
 
 	velocity.x = Utils.choice_list([

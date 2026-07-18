@@ -14,6 +14,5 @@ func _get_view_size():
 	return get_tree().get_root().get_visible_rect().size
 
 func choice_list(list):
-	randomize()
 	var random_index = randi()% list.size()
 	return list[random_index]
